@@ -30,17 +30,21 @@ let inputs = io.of('/input');
 inputs.on('connection', function (socket) {
   console.log('An input client connected: ' + socket.id);
 
-  // Listen for tilt messages
-  socket.on('move', function (data) {
-    // Data comes in as whatever was sent, including objects
-    //console.log("Received: 'message' " + data);
 
-    // Send data to all the output clients
-    outputs.emit('move', data);
+  // Listen for red messages
+  socket.on('red', function (data) {
+    // Data comes in as whatever was sent, including objects
+    // console.log("Received: 'message' " + data);
+    let message = {
+      id : socket.id,
+      data : data,
+    }
+    // Send message to outputs
+    outputs.emit('red', message);
   });
 
   // Listen for shake messages
-  socket.on('shake', function (data) {
+  socket.on('blue', function (data) {
     // Data comes in as whatever was sent, including objects
     // console.log("Received: 'message' " + data);
     let message = {
@@ -49,8 +53,10 @@ inputs.on('connection', function (socket) {
     }
 
     // Send message to outputs
-    outputs.emit('shake', message);
+    outputs.emit('blue', message);
   });
+
+
 
   // Listen for this input client to disconnect
   socket.on('disconnect', function () {

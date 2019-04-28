@@ -10,31 +10,27 @@ socket.on('connect', function () {
 let users = {};
 let totalForce;
 
-// Min number of users
-// let MIN_USERS = 1;
-//
-// // Number of frames elapsed for song to play 2x
-// let MIN_INTERVAL = 5;
-// // Number of frames elapsed for song to play 0x
-// let MAX_INTERVAL = 60;
+var currentRedForce = 0;
+var newRedForce = 0;
 
-
+var currentBlueForce = 0;
+var newBlueForce = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Listen for shake data
-  socket.on('shake', function (message) {
+  // Listen for force data
+  socket.on('red', function (message) {
     let id = message.id;
     let force = message.data;
-    //console.log(interval);
-    // Ignore super fast shakes - noisy data
-    // if (interval > MIN_INTERVAL) {
-    //   users[id] = interval;
-    // }
-
+    newRedForce = force
   });
 
+  socket.on('blue', function (message) {
+    let id = message.id;
+    let force = message.data;
+    newBlueForce = force
+  });
   // Listen for disconnection to remove user
   socket.on('disconnected', function (id) {
     delete users[id];
@@ -42,7 +38,7 @@ function setup() {
 
 
   // Peg frameRate to 30
-  frameRate(30);
+  frameRate(60);
 }
 
 function draw() {
@@ -91,35 +87,71 @@ function draw() {
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
+  //console.log(users[0].force)
+  // console.log(shakeforce);
 
   let userNum = 0;
   let m = width/2;
-  //let colW = (width - (2 * m)) / MIN_USERS;
   let scl = height / 150;
   noStroke();
-  for (let u in users) {
-    totalForce = users[u].force + users[u+1].force;
-    userNum++;
-  }
+  // for (let u in users) {
+  //   totalForce = users[u].force + users[u+1].force;
+  //   userNum++;
+  // }
+  // if(force){
+    currentRedForce += newRedForce;
+    currentBlueForce += newBlueForce;
 
-  if(totalForce){
-
-    noStroke();
-    fill(0);
-    // text("MEAN", m, meanInterval * scl);
-    // text("MIDPOINT", m, midpointInterval * scl);
-    // text("MIN", m, maxInterval * scl);
-    text("TOTAL", m, totalForce * scl);
+  // }
 
 
-    stroke(0);
-    // line(0, meanInterval * scl, width, meanInterval * scl);
-    // line(0, midpointInterval * scl, width, midpointInterval * scl);
-    // line(0, maxInterval * scl, width, maxInterval * scl);
-    line(0, totalForce * scl, width, totalForce * scl);
+  //clear for next frame
+  newRedForce = 0;
+  newBlueForce = 0
 
-  }else{
-    console.log("totalForce is null")
-  }
+  //draw performance
+  textAlign(CENTER);
+
+    //red performance
+    stroke(255,0,0);
+    line(currentRedForce, 0, currentRedForce, height);
+    noFill();
+    ellipse(currentRedForce, height/2-100,80)
+    noStroke()
+    fill(255,0,0)
+    text(currentRedForce, currentRedForce, height/2-100);
+
+    //blue performance
+    stroke(0,0,255);
+    line(currentBlueForce, 0, currentBlueForce, height);
+    noFill();
+    ellipse(currentBlueForce, height/2+100,80)
+    noStroke()
+    fill(0,0,255)
+    text(currentBlueForce, currentBlueForce, height/2+100);
+
+
+    //goal line
+    let goal = m
+    stroke(0,10);
+
+    line(goal, 0, goal, height);
+
+    //show result
+      ellipseMode(CENTER)
+    if (currentBlueForce > goal){
+      fill(0,0,255)
+      ellipse(m, height/2,160)
+      noStroke()
+      text("Blue Win!", m, height/2);
+    }
+
+    if (currentRedForce > goal){
+      fill(255,0,0)
+      ellipse(m, height/2,160)
+      noStroke()
+      text("Red Win!", m, height/2);
+    }
+
 
 }
