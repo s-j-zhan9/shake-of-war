@@ -1,4 +1,3 @@
-// Open and connect input socket
 let socket = io('/output');
 
 // Listen for confirmation of connection
@@ -16,6 +15,9 @@ var newRedForce = 0;
 var currentBlueForce = 0;
 var newBlueForce = 0;
 
+let blueWin = false;
+let redWin = false;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -23,13 +25,14 @@ function setup() {
   socket.on('red', function (message) {
     let id = message.id;
     let force = message.data;
-    newRedForce = force
+    newRedForce = force;
+    console.log(force);
   });
 
   socket.on('blue', function (message) {
     let id = message.id;
     let force = message.data;
-    newBlueForce = force
+    newBlueForce = force;
   });
   // Listen for disconnection to remove user
   socket.on('disconnected', function (id) {
@@ -114,21 +117,21 @@ function draw() {
 
     //red performance
     stroke(255,0,0);
-    line(currentRedForce, 0, currentRedForce, height);
+    line(currentRedForce/5, 0, currentRedForce/5, height);
     noFill();
-    ellipse(currentRedForce, height/2-100,80)
+    ellipse(currentRedForce/5, height/2-100,80)
     noStroke()
     fill(255,0,0)
-    text(currentRedForce, currentRedForce, height/2-100);
+    text(floor(currentRedForce/5), floor(currentRedForce/5), height/2-100);
 
     //blue performance
     stroke(0,0,255);
-    line(currentBlueForce, 0, currentBlueForce, height);
+    line(currentBlueForce/5, 0, currentBlueForce/5, height);
     noFill();
-    ellipse(currentBlueForce, height/2+100,80)
+    ellipse(currentBlueForce/5, height/2+100,80)
     noStroke()
     fill(0,0,255)
-    text(currentBlueForce, currentBlueForce, height/2+100);
+    text(floor(currentBlueForce/5), floor(currentBlueForce/5), height/2+100);
 
 
     //goal line
@@ -139,19 +142,19 @@ function draw() {
 
     //show result
       ellipseMode(CENTER)
-    if (currentBlueForce > goal){
+
+  if (redWin === false && currentBlueForce/5 > goal){
       fill(0,0,255)
-      ellipse(m, height/2,160)
+      ellipse(m, height/2,100)
       noStroke()
-      text("Blue Win!", m, height/2);
+      text("Blue Win!", m, height/2 + 200);
+      blueWin = true;
     }
-
-    if (currentRedForce > goal){
+    else if (blueWin === false && currentRedForce/5 > goal){
       fill(255,0,0)
-      ellipse(m, height/2,160)
+      ellipse(m, height/2,100)
       noStroke()
-      text("Red Win!", m, height/2);
+      text("Red Win!", m, height/2 + 200);
+      redWin = true;
     }
-
-
 }

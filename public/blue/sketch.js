@@ -24,21 +24,17 @@ function draw() {
 
   fill(0);
   textSize(32);
-  text(totalForce, width/2, height/2-100);
+  text(floor(totalForce/5), width/2, height/2-100);
 }
 
 // Send data
 function deviceShaken() {
 
   let force = abs(accelerationX-pAccelerationX) + abs(accelerationY-pAccelerationY);
-  let c = color('rgb(255,0,0)');
-  fill(c);
-  rect(width/2, height/2, force, force);
-  textSize(32);
-  text("shaken", width/2, height/2-100);
-  socket.emit('blue', force);
+  socket.emit('blue', force/5);
+  totalForce++;
 }
-function mousePressed(){
-  socket.emit('blue', 3);
-  totalForce++
-}
+// function mousePressed(){
+//   socket.emit('red', 3);
+//   totalForce++
+// }

@@ -24,7 +24,7 @@ function draw() {
 
   fill(0);
   textSize(32);
-  text(totalForce, width/2, height/2-100);
+  text(floor(totalForce/5), width/2, height/2-100);
 }
 
 // Calculate size of shake
@@ -32,14 +32,10 @@ function draw() {
 function deviceShaken() {
 
   let force = abs(accelerationX-pAccelerationX) + abs(accelerationY-pAccelerationY);
-  let c = color('rgb(255,0,0)');
-  fill(c);
-  rect(width/2, height/2, force, force);
-  textSize(32);
-  text("shaken", width/2, height/2-100);
-  socket.emit('red', force);
-}
-function mousePressed(){
-  socket.emit('red', 3);
+  socket.emit('red', force/5);
   totalForce++
 }
+// function mousePressed(){
+//   socket.emit('red', 3);
+//   totalForce++
+// }
