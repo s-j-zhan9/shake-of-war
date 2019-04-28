@@ -36,7 +36,7 @@ function deviceShaken() {
   rect(width/2, height/2, force, force);
   textSize(32);
   text("shaken", width/2, height/2-100);
-  socket.emit('shake', force);
+  socket.emit('blue', force);
 }
 function mousePressed(){
   socket.emit('blue', 3);
