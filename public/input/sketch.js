@@ -14,7 +14,7 @@ socket.on('connect', function() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  setShakeThreshold(30);
+  setShakeThreshold(10);
   background(0);
   frameRate(30);
   textAlign(CENTER);
@@ -22,36 +22,48 @@ function setup() {
 
 function draw() {
   background(0);
-
-  let movement = dist(accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ);
-  // Test with mouse
-  //let movement = dist(pmouseX, pmouseY, mouseX, mouseY);
-  fill(255, 10);
-  ellipse(width / 2, height / 2, movement, movement);
-  socket.emit('move', movement);
-  fill(255);
-  textSize(32);
-  text(movement, width / 2, (height / 2) - 100);
-  textSize(64);
-  text(num, width / 2, height / 2);
-
-  // Check once a second if user has slowed down
-  if (frameCount % 30 == 0) {
-    let newInterval = frameCount - lastShaken;
-    if (newInterval > interval) {
-      interval = newInterval;
-      socket.emit('shake', interval);
-    }
+  if (force) {
+    force += force
   }
+  //
+  // let movement = dist(accelerationX, accelerationY, accelerationZ, pAccelerationX, pAccelerationY, pAccelerationZ);
+  // // Test with mouse
+  // //let movement = dist(pmouseX, pmouseY, mouseX, mouseY);
+  // fill(255, 10);
+  // ellipse(width / 2, height / 2, movement, movement);
+  // socket.emit('move', movement);
+  // fill(255);
+  // textSize(32);
+  // text(movement, width / 2, (height / 2) - 100);
+  // textSize(64);
+  // text(num, width / 2, height / 2);
+  //
+  // // Check once a second if user has slowed down
+  // if (frameCount % 30 == 0) {
+  //   let newInterval = frameCount - lastShaken;
+  //   if (newInterval > interval) {
+  //     interval = newInterval;
+  //     socket.emit('shake', interval);
+  //   }
+  // }
 }
 
 // Calculate size of shake
 // Send data
 function deviceShaken() {
-  if (frameCount - lastShaken < 5) return;
-  num++;
-  background('red');
-  interval = frameCount - lastShaken;
-  socket.emit('shake', interval);
-  lastShaken = frameCount;
+
+  let force = abs(accelerationX-pAccelerationX) + abs(accelerationY-pAccelerationY);
+  let c = color('rgb(255,0,0)');
+  fill(c);
+  rect(width/2, height/2, force, force);
+  textSize(32);
+  text("shaken", width/2, height/2-100);
+  socket.emit('shake', force);
+
+  // if (frameCount - lastShaken < 5) return;
+  // num++;
+  // background('red');
+  // interval = frameCount - lastShaken;
+  // socket.emit('shake', interval);
+  // lastShaken = frameCount;
 }
