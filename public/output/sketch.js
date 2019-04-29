@@ -1,5 +1,9 @@
 let socket = io('/output');
 
+
+// HOW HARD IT WOULD BE, contribution ++, hard level ++
+let contribution = 10;
+
 // Listen for confirmation of connection
 socket.on('connect', function () {
   console.log("Connected");
@@ -117,40 +121,40 @@ function draw() {
 
     //red performance
     stroke(255,0,0);
-    line(currentRedForce/5, 0, currentRedForce/5, height);
+    line(currentRedForce/contribution, 0, currentRedForce/contribution, height);
     noFill();
-    ellipse(currentRedForce/5, height/2-100,80)
+    ellipse(currentRedForce/contribution, height/2-100,80)
     noStroke()
     fill(255,0,0)
-    text(floor(currentRedForce/5), floor(currentRedForce/5), height/2-100);
+    text(floor(currentRedForce/contribution), floor(currentRedForce/contribution), height/2-100);
 
     //blue performance
     stroke(0,0,255);
-    line(currentBlueForce/5, 0, currentBlueForce/5, height);
+    line(currentBlueForce/contribution, 0, currentBlueForce/contribution, height);
     noFill();
-    ellipse(currentBlueForce/5, height/2+100,80)
+    ellipse(currentBlueForce/contribution, height/2+100,80)
     noStroke()
     fill(0,0,255)
-    text(floor(currentBlueForce/5), floor(currentBlueForce/5), height/2+100);
+    text(floor(currentBlueForce/contribution), floor(currentBlueForce/contribution), height/2+100);
 
 
     //goal line
     let goal = m
-    stroke(0,10);
+    stroke(0,20);
 
     line(goal, 0, goal, height);
 
     //show result
       ellipseMode(CENTER)
 
-  if (redWin === false && currentBlueForce/5 > goal){
+  if (redWin === false && currentBlueForce/contribution > goal){
       fill(0,0,255)
       ellipse(m, height/2,100)
       noStroke()
       text("Blue Win!", m, height/2 + 200);
       blueWin = true;
     }
-    else if (blueWin === false && currentRedForce/5 > goal){
+    else if (blueWin === false && currentRedForce/contribution > goal){
       fill(255,0,0)
       ellipse(m, height/2,100)
       noStroke()
