@@ -9,6 +9,10 @@ socket.on('connect', function () {
   console.log("Connected");
 });
 
+//get user num from html form
+redNum = document.redNum
+blueNum = document.blueNum
+
 // Keep track of users
 let users = {};
 let totalForce;
@@ -106,8 +110,8 @@ function draw() {
   //   userNum++;
   // }
   // if(force){
-    currentRedForce += newRedForce;
-    currentBlueForce += newBlueForce;
+    currentRedForce += newRedForce/redNum;
+    currentBlueForce += newBlueForce/blueNum;
 
   // }
 
