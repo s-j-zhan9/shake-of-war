@@ -2,7 +2,8 @@
 let socket = io('/input');
 
 // HOW HARD IT WOULD BE, contribution ++, hard level ++
-let contribution = 10;
+let contribution = 5;
+let personal_contribution = 2000;
 
 // Keep track of when last shaken
 let lastShaken = 0;
@@ -16,9 +17,13 @@ let button_blue;
 
 let team_red = false;
 let team_blue = false;
+let r = 255;
+let g = 255;
+let b = 255;
+let a = 0;
 
 // Listen for confirmation of connection
-socket.on('connect', function() {
+  socket.on('connect', function() {
   console.log("Connected");
 });
 
@@ -26,45 +31,54 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   setShakeThreshold(10);
   textAlign(CENTER);
-  button_red = createButton('red');
+  button_red = createButton('red' + '' + ' ');
   button_blue = createButton('blue');
-  button_red.position(width/2,100);
-  button_blue.position(width/2, 150);
+  button_red.style('width: 90px; display: inline-block;border: none;border-radius: 20px;padding: 30px 30px;margin: 5px;text-decoration: none;background: #EB5230;color: #ffffff;font-size: 1rem;cursor: pointer;text-align: center;');
+  button_red.position(width/2 - 45,70);
+  button_blue.style('width: 90px; display: inline-block;border: none;border-radius: 20px;padding: 30px 30px;margin: 5px;text-decoration: none;background: #0069ed;color: #ffffff;font-size: 1rem;cursor: pointer;text-align: center;');
+  button_blue.position(width/2 - 45, 170);
   button_red.mousePressed(bg_red);
   button_blue.mousePressed(bg_blue);
 }
 
 function draw() {
-  //background(200,200,255);
+  background(r,g,b);
   fill(0);
   textSize(32);
-  text(floor(totalForce/contribution), width/2, height/2-100);
+  text(floor(totalForce/personal_contribution), width/2, height/2-100);
 }
 
 // Send data
 function deviceShaken() {
-
   let force = abs(accelerationX-pAccelerationX) + abs(accelerationY-pAccelerationY);
 
   if (team_blue == true){
   socket.emit('blue', force/contribution);
-  totalForce++;
+  totalForce += force;
  }
 
  if (team_red == true){
  socket.emit('red', force/contribution);
- totalForce++;
+ totalForce += force;
   }
 }
 
 function bg_red() {
-  background(255,0,0);
+  r = 255;
+  g = 200;
+  b = 200;
+
+  totalForce = 0;
   team_red = true;
   team_blue = false;
 }
 
 function bg_blue() {
-  background(0,0,255);
+  r = 200;
+  g = 200;
+  b = 255;
+
+  totalForce = 0;
   team_blue = true;
   team_red = false;
 }

@@ -2,16 +2,13 @@ let socket = io('/output');
 
 
 // HOW HARD IT WOULD BE, contribution ++, hard level ++
-let contribution = 10;
+let contribution = 20;
 
 // Listen for confirmation of connection
 socket.on('connect', function () {
   console.log("Connected");
 });
 
-//get user num from html form
-redNum = document.redNum
-blueNum = document.blueNum
 
 // Keep track of users
 let users = {};
@@ -34,7 +31,7 @@ function setup() {
     let id = message.id;
     let force = message.data;
     newRedForce = force;
-    console.log(force);
+    //console.log(force);
   });
 
   socket.on('blue', function (message) {
@@ -48,72 +45,35 @@ function setup() {
   });
 
 
+
+//get user num from html form
+let redNum;
+let blueNum;
+
   // Peg frameRate to 30
   frameRate(60);
 }
 
 function draw() {
   background(255);
-
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////// GROUP EFFORT ////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-
-  // Find the mean average interval
-  // let meanInterval = 0;
-  // Count number of users
-  // let numUsers = 0;
-  // for (let u in users) {
-  //   meanInterval += users[u];
-  //   numUsers++;
-  // }
-  // meanInterval /= numUsers;
-  //
-  // // Find the midpoint average interval
-  // let maxInterval = 0;
-  // let minInterval = 1000000000;
-  // for (let u in users) {
-  //   let interval = users[u];
-  //   if (interval < minInterval) minInterval = interval;
-  //   if (interval > maxInterval) maxInterval = interval;
-  // }
-  //
-  // // Calculate the mid-point between the smallest and largest interval
-  // let midpointInterval = (maxInterval + minInterval) / 2;
-  //
-  // // Decide which interval will represent the group
-  // let interval = meanInterval || MAX_INTERVAL;
-  //let interval = midpointInterval;
-  //let interval = maxInterval;
-
-
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  //////////////// Draw the users and averages ///////////////////////
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-  //console.log(users[0].force)
-  // console.log(shakeforce);
+  redNum = document.getElementById("numRed").value;
+  blueNum = document.getElementById("numBlue").value;
 
   let userNum = 0;
   let m = width/2;
+  let n = width/2 + 200;
   let scl = height / 150;
   noStroke();
   // for (let u in users) {
   //   totalForce = users[u].force + users[u+1].force;
   //   userNum++;
   // }
-  // if(force){
+  if(redNum){
     currentRedForce += newRedForce/redNum;
+  }
+  if (blueNum){
     currentBlueForce += newBlueForce/blueNum;
-
-  // }
+  }
 
 
   //clear for next frame
@@ -132,6 +92,7 @@ function draw() {
     fill(255,0,0)
     text(floor(currentRedForce/contribution), floor(currentRedForce/contribution), height/2-100);
 
+
     //blue performance
     stroke(0,0,255);
     line(currentBlueForce/contribution, 0, currentBlueForce/contribution, height);
@@ -143,22 +104,25 @@ function draw() {
 
 
     //goal line
-    let goal = m
-    stroke(0,20);
-
-    line(goal, 0, goal, height);
+    let goal_red = m;
+    let goal_blue = n;
+    strokeWeight(4);
+    stroke(255,0,0);
+    line(goal_red, 0, goal_red, height);
+    stroke(0,0,255);
+    line(goal_blue, 0, goal_blue, height);
 
     //show result
       ellipseMode(CENTER)
 
-  if (redWin === false && currentBlueForce/contribution > goal){
+  if (redWin === false && currentBlueForce/contribution > goal_blue){
       fill(0,0,255)
-      ellipse(m, height/2,100)
+      ellipse(n, height/2,100)
       noStroke()
-      text("Blue Win!", m, height/2 + 200);
+      text("Blue Win!", n, height/2 + 200);
       blueWin = true;
     }
-    else if (blueWin === false && currentRedForce/contribution > goal){
+    else if (blueWin === false && currentRedForce/contribution > goal_red){
       fill(255,0,0)
       ellipse(m, height/2,100)
       noStroke()
