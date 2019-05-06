@@ -14,7 +14,7 @@ socket.on('connect', function () {
 let users = {};
 let totalForce;
 
-var currentRedForce = 0;
+var currentRedForce = 3000;
 var newRedForce = 0;
 
 var currentBlueForce = 0;
@@ -24,7 +24,7 @@ let blueWin = false;
 let redWin = false;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight-200);
 
   // Listen for force data
   socket.on('red', function (message) {
@@ -55,13 +55,11 @@ let blueNum;
 }
 
 function draw() {
-  background(255);
+  background(250);
   redNum = document.getElementById("numRed").value;
   blueNum = document.getElementById("numBlue").value;
 
   let userNum = 0;
-  let m = width/2;
-  let n = width/2 + 200;
   let scl = height / 150;
   noStroke();
   // for (let u in users) {
@@ -83,46 +81,59 @@ function draw() {
   //draw performance
   textAlign(CENTER);
 
+  let indent = width/6;
+
+
+    strokeWeight(4);
     //red performance
     stroke(255,0,0);
-    line(currentRedForce/contribution, 0, currentRedForce/contribution, height);
+    // line(currentRedForce/contribution, 0, currentRedForce/contribution, height);
     noFill();
-    ellipse(currentRedForce/contribution, height/2-100,80)
+    ellipse(currentRedForce/contribution+indent, height/2-100,80)
+    ellipse(currentRedForce/contribution+indent, height/2-100,4)
+
     noStroke()
     fill(255,0,0)
-    text(floor(currentRedForce/contribution), floor(currentRedForce/contribution), height/2-100);
+    // text(floor(currentRedForce/contribution), floor(currentRedForce/contribution), height/2-100);
+    text(("2X Your Point"), 70, height/2-100);
 
 
     //blue performance
     stroke(0,0,255);
-    line(currentBlueForce/contribution, 0, currentBlueForce/contribution, height);
+    // line(currentBlueForce/contribution, 0, currentBlueForce/contribution, height);
     noFill();
-    ellipse(currentBlueForce/contribution, height/2+100,80)
+    ellipse(currentBlueForce/contribution+indent, height/2+100,80)
+    ellipse(currentBlueForce/contribution+indent, height/2+100,4)
+
     noStroke()
     fill(0,0,255)
-    text(floor(currentBlueForce/contribution), floor(currentBlueForce/contribution), height/2+100);
+    // text(floor(currentBlueForce/contribution), floor(currentBlueForce/contribution), height/2+100);
+    
+    text(("3X Your Point"), 70, height/2+100);
 
 
     //goal line
-    let goal_red = m;
-    let goal_blue = n;
-    strokeWeight(4);
-    stroke(255,0,0);
-    line(goal_red, 0, goal_red, height);
-    stroke(0,0,255);
-    line(goal_blue, 0, goal_blue, height);
+    let goal = width/5*4;
+    strokeWeight(12);
+    stroke(0);
+      for (let i=0; i<6; i++){
+        line(goal+i*24, 0, goal+i*24, height);
+      }
+      for (let i=0; i<80; i++){
+        line(goal, 0+i*24, goal+5*24, 0+i*24);
+      }
 
     //show result
       ellipseMode(CENTER)
 
-  if (redWin === false && currentBlueForce/contribution > goal_blue){
+  if (redWin === false && currentBlueForce/contribution > goal){
       fill(0,0,255)
       ellipse(n, height/2,100)
       noStroke()
       text("Blue Win!", n, height/2 + 200);
       blueWin = true;
     }
-    else if (blueWin === false && currentRedForce/contribution > goal_red){
+    else if (blueWin === false && currentRedForce/contribution > goal){
       fill(255,0,0)
       ellipse(m, height/2,100)
       noStroke()
