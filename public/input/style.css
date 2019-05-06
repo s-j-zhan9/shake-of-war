@@ -1,3 +1,142 @@
-body {
-  margin: 0px;
+html{
+  overflow: hidden;
+  height: 100%;
+  margin:0px;
+  border:0px;
+  padding:0px;
+}
+
+
+body{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  height: 100%;
+  width:100%;
+  overflow: auto;
+  margin:0px;
+  border:0px;
+  padding:0px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.next{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #000;
+  background-color: #FFE66D;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 6px #ffc74f;
+  margin-top: 100%;
+}
+
+#startScreen {
+  background-color: #ffffff;
+  background-size:     cover;
+  background-repeat:   no-repeat;
+  background-position: center center;
+  overflow: hidden;
+  position:fixed;
+  height:100%;
+  width: 100%;
+  /* overflow: auto; */
+  /* display: auto; */
+  align-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#teamContainer{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;;
+  /* font-size: 20px; */
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  background-color:Transparent;
+  border: none;
+  height:100%;
+  width: 100%;
+}
+
+.button{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  background-color:Transparent;
+  border: none;
+}
+
+.instruction{
+  font-size: 1.5em;
+  padding-top: 20%;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+  box-align: center;
+  color:#121212;
+}
+
+.homepageimg{
+  background-image: url(images/Instruction.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: fixed;
+  margin-top: 40%;
+  height: 30%;
+  width: 100%;
+}
+
+#red{
+  font-size: 1rem;
+  color: #000;
+  background-color: #EB5230;
+  box-shadow: 0 6px #a4a4a4;
+  width: 90px;
+  margin-top: 20%;
+  margin-right:15%;
+  border: none;
+  border-radius: 20px;
+  padding: 30px 30px;
+  color: #fafafa;
+}
+
+#blue{
+  font-size: 1rem;
+  color: #000;
+  background-color: #0069ed;
+  box-shadow: 0 6px #a4a4a4;
+  width: 90px;
+  border: none;
+  border-radius: 20px;
+  padding: 30px 30px;
+  color: #fafafa;
+}
+
+#replay{
+  font-size: 1rem;
+  color: #000;
+  background-color: #FFE66D;
+  box-shadow: 0 6px #a4a4a4;
+  width: 90px;
+  border: none;
+  border-radius: 20px;
+  padding: 30px 30px;
+  margin-bottom: 20%;
+  color: #121212;
 }

@@ -28,24 +28,17 @@ let a = 0;
 });
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight/2);
+  canvas.parent('teamContainer');
   setShakeThreshold(10);
   textAlign(CENTER);
-  button_red = createButton('red' + '' + ' ');
-  button_blue = createButton('blue');
-  button_red.style('width: 90px; display: inline-block;border: none;border-radius: 20px;padding: 30px 30px;margin: 5px;text-decoration: none;background: #EB5230;color: #ffffff;font-size: 1rem;cursor: pointer;text-align: center;');
-  button_red.position(width/2 - 45,70);
-  button_blue.style('width: 90px; display: inline-block;border: none;border-radius: 20px;padding: 30px 30px;margin: 5px;text-decoration: none;background: #0069ed;color: #ffffff;font-size: 1rem;cursor: pointer;text-align: center;');
-  button_blue.position(width/2 - 45, 170);
-  button_red.mousePressed(bg_red);
-  button_blue.mousePressed(bg_blue);
 }
 
 function draw() {
-  background(r,g,b);
+  //background(r,g,b);
   fill(0);
   textSize(32);
-  text(floor(totalForce/personal_contribution), width/2, height/2-100);
+  text(floor(totalForce/personal_contribution), width/2, height/2+50);
 }
 
 // Send data
@@ -63,22 +56,23 @@ function deviceShaken() {
   }
 }
 
-function bg_red() {
-  r = 255;
-  g = 200;
-  b = 200;
+function redSelected() {
 
+  $("#teamContainer").css("background-color", "#FFC8C8");
   totalForce = 0;
   team_red = true;
   team_blue = false;
 }
 
-function bg_blue() {
-  r = 200;
-  g = 200;
-  b = 255;
-
+function blueSelected() {
+  $("#teamContainer").css("background-color", "#C8C8FF");
   totalForce = 0;
   team_blue = true;
   team_red = false;
+}
+
+
+function goToTeam(){
+  $("#startScreen").css("display", "none");
+  $(".teamContainer").css("display", "inline-block");
 }

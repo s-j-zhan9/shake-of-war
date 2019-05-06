@@ -5,10 +5,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <meta charset="utf-8" />
   </head>
   <body>
+
+    <div id="startScreen">
+
+      <h1 class="instruction">This is a game</h1>
+        <div class = "homepageimg"></div>
+        <button class="next" onclick="goToTeam()">Start</button>
+    </div>
+
+    <div id="teamContainer">
+      <h1 class="instruction">Select your team</h1>
+        <button  class="button" id="red" onfocus="redSelected()" ontouchstart="redSelected()">Red</button>
+        <button  class="button" id="blue" onfocus="blueSelected()" ontouchstart="blueSelected()">Blue</button>
+    </div>
+
+
     <script src="sketch.js"></script>
+
+
+
   </body>
 </html>
